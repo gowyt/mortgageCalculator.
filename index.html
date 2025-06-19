@@ -1,534 +1,551 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
-<meta charset="UTF-8" />
-<title>Simulador de Gastos Hipotecarios</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    margin: 20px;
-    display: flex;
-    gap: 40px;
-  }
+    <meta charset="UTF-8" />
+    <title>Simulador de Gastos Hipotecarios</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            display: flex;
+            gap: 40px;
+        }
 
-  .formulario, .resultados {
-    flex: 1;
-  }
+        .formulario,
+        .resultados {
+            flex: 1;
+        }
 
-  label {
-    display: block;
-    margin-top: 20px;
-    font-weight: bold;
-  }
+        label {
+            display: block;
+            margin-top: 20px;
+            font-weight: bold;
+        }
 
-  input[type="number"], select {
-    width: 100%;
-    padding: 6px;
-    margin-top: 5px;
-    margin-bottom: 15px; /* separación para que thumb no choque */
-    box-sizing: border-box;
-    outline-offset: 2px;
-  }
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 6px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            /* separación para que thumb no choque */
+            box-sizing: border-box;
+            outline-offset: 2px;
+        }
 
-  input[type=number]::-webkit-inner-spin-button, 
-  input[type=number]::-webkit-outer-spin-button { 
-    -webkit-appearance: none;
-    margin: 0; 
-  }
-  input[type=number] {
-    -moz-appearance:textfield;
-  }
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
 
-  input[type="number"]:focus, select:focus {
-    outline: 2px solid rgb(28,104,102);
-  }
+        input[type=number] {
+            appearance: textfield;
+            -moz-appearance: textfield;
+        }
 
-  input[type="range"] {
-    -webkit-appearance: none;
-    width: 100%;
-    height: 8px;
-    border-radius: 4px;
-    background: #ccc;
-    outline: none;
-    cursor: pointer;
-    position: relative;
-    z-index: 1;
-  }
+        input[type="number"]:focus,
+        select:focus {
+            outline: 2px solid rgb(28, 104, 102);
+        }
 
-  input[type="range"]::-webkit-slider-runnable-track {
-    height: 8px;
-    border-radius: 4px;
-    background: transparent;
-  }
-  input[type="range"]::-moz-range-track {
-    height: 8px;
-    border-radius: 4px;
-    background: transparent;
-  }
+        input[type="range"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: #ccc;
+            outline: none;
+            cursor: pointer;
+            position: relative;
+            z-index: 1;
+        }
 
-  input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 20px;
-    height: 20px;
-    background: white;
-    border-radius: 50%;
-    border: none;
-    cursor: pointer;
-    margin-top: -6px;
-    box-shadow: 0 0 2px rgba(0,0,0,0.5);
-    position: relative;
-    z-index: 2;
-  }
-  input[type=range]::-moz-range-thumb {
-    width: 20px;
-    height: 20px;
-    background: white;
-    border-radius: 50%;
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 0 2px rgba(0,0,0,0.5);
-    position: relative;
-    z-index: 2;
-  }
+        input[type="range"]::-webkit-slider-runnable-track {
+            height: 8px;
+            border-radius: 4px;
+            background: transparent;
+        }
 
-  button {
-    margin-top: 12px;
-    margin-bottom: 16px;
-    padding: 12px 20px;
-    background-color: rgb(28,104,102);
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
+        input[type="range"]::-moz-range-track {
+            height: 8px;
+            border-radius: 4px;
+            background: transparent;
+        }
 
-  .resultados {
-    background: #f5f5f5;
-    padding: 20px;
-    border-radius: 10px;
-  }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            margin-top: -6px;
+            box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 2;
+        }
 
-  .campo-result {
-    margin-bottom: 10px;
-  }
+        input[type=range]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 2;
+        }
 
-  .valor {
-    font-weight: normal;
-    margin-left: 8px;
-    color: #333;
-  }
+        button {
+            margin-top: 12px;
+            margin-bottom: 16px;
+            padding: 12px 20px;
+            background-color: rgb(28, 104, 102);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
 
-  h3 {
-    margin-top: 0;
-  }
+        .resultados {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 10px;
+        }
 
-  .seccion {
-    margin-top: 20px;
-    margin-bottom: 20px;
-  }
+        .campo-result {
+            margin-bottom: 10px;
+        }
 
-  .subseccion {
-    margin-top: 10px;
-    margin-bottom: 10px;
-    padding-left: 10px;
-  }
+        .valor {
+            font-weight: normal;
+            margin-left: 8px;
+            color: #333;
+        }
 
-  /* Modal */
-  #modalAmortizacion {
-    display: none;
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.5);
-    justify-content: center;
-    align-items: center;
-    z-index: 10;
-  }
-  #modalAmortizacion .modal-content {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    width: 300px;
-    position: relative;
-  }
-  #modalAmortizacion .close-btn {
-    position: absolute;
-    top: 8px;
-    right: 12px;
-    font-weight: bold;
-    font-size: 20px;
-    color: #888;
-    cursor: pointer;
-  }
-  #modalAmortizacion .close-btn:hover {
-    color: #000;
-  }
+        h3 {
+            margin-top: 0;
+        }
 
-</style>
+        .seccion {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .subseccion {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            padding-left: 10px;
+        }
+
+        /* Modal */
+        #modalAmortizacion {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+
+        #modalAmortizacion .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 300px;
+            position: relative;
+        }
+
+        #modalAmortizacion .close-btn {
+            position: absolute;
+            top: 8px;
+            right: 12px;
+            font-weight: bold;
+            font-size: 20px;
+            color: #888;
+            cursor: pointer;
+        }
+
+        #modalAmortizacion .close-btn:hover {
+            color: #000;
+        }
+    </style>
 </head>
+
 <body>
 
-<div class="formulario">
-  <h2>Simulador Hipoteca</h2>
-
-  <label for="precioVivienda">Precio de la vivienda (€):</label>
-  <input type="number" id="precioVivienda" min="0" step="1000" value="0" />
-  <input type="range" id="sliderPrecioVivienda" min="0" max="1000000" step="1000" value="0" />
-
-  <label for="importeHipoteca">Importe de la hipoteca (€):</label>
-  <input type="number" id="importeHipoteca" min="0" step="1000" value="0" disabled />
-  <input type="range" id="importeSliderHipoteca" min="0" max="1000000" step="1000" value="0" disabled />
-
-  <label for="plazo">Plazo (años):</label>
-  <input type="number" id="plazo" min="0" max="50" value="0" disabled />
-  <input type="range" id="plazoSlider" min="0" max="50" step="1" value="0" disabled />
-
-  <label for="interes">Tipo de interés (%):</label>
-  <input type="number" id="interes" min="0" max="10" step="0.1" value="0" />
-  <input type="range" id="sliderInteres" min="0" max="10" step="0.1" value="0" />
-
-  <label for="ubicacion">Ubicación:</label>
-  <select id="ubicacion">
-    <option value="Madrid">Madrid</option>
-    <option value="Barcelona">Barcelona</option>
-    <option value="Valencia">Valencia</option>
-  </select>
-
-  <label for="condicion">Condición:</label>
-  <select id="condicion">
-    <option value="Nueva">Nueva</option>
-    <option value="Segunda mano">Segunda mano</option>
-  </select>
-</div>
-
-<div class="resultados">
-  <h3>Resultados</h3>
-  <div class="campo-result">Cuota mensual: <span id="cuota" class="valor"></span></div>
-  <div class="campo-result">Capital total: <span id="capitalTotal" class="valor"></span></div>
-  <div class="campo-result">Intereses: <span id="interesesTotales" class="valor"></span></div>
-  <button id="btnAmortizacion">Ver cuadro de amortización</button>
-
-  <h3>Impuestos y gastos</h3>
-
-  <div class="seccion">
-    <div><strong>Gastos de la compra</strong></div>
-    <div class="subseccion">Notaria: <span id="notariaCompra" class="valor"></span></div>
-    <div class="subseccion">Registro: <span id="registroCompra" class="valor"></span></div>
-    <div class="subseccion">Gestoría: <span id="gestoriaCompra" class="valor"></span></div>
-    <div class="subseccion">Impuestos: <span id="impuestosCompra" class="valor"></span></div>
-    <div class="subseccion"><strong>Total: <span id="totalCompra" class="valor"></span></strong></div>
-  </div>
-
-  <div class="seccion">
-    <div><strong>Gastos de la hipoteca</strong></div>
-    <div class="subseccion">Comisión de apertura: <span id="comisionApertura" class="valor"></span></div>
-    <div class="subseccion">Notaria: <span id="notariaHipoteca" class="valor"></span></div>
-    <div class="subseccion">Registro: <span id="registroHipoteca" class="valor"></span></div>
-    <div class="subseccion">Gestoría: <span id="gestoriaHipoteca" class="valor"></span></div>
-    <div class="subseccion">Impuestos: <span id="impuestosHipoteca" class="valor"></span></div>
-    <div class="subseccion"><strong>Total: <span id="totalHipoteca" class="valor"></span></strong></div>
-  </div>
-
-  <div class="seccion">
-    <div>Gastos de tasación: <span id="tasacion" class="valor"></span></div>
-  </div>
-
-  <div class="seccion">
-    <strong>Gastos totales: <span id="totalGastos" class="valor"></span></strong>
-  </div>
-
-  <button id="btnDescargarPDF">Descargar informe PDF</button>
-</div>
-
-<!-- Modal -->
-<div id="modalAmortizacion">
-  <div class="modal-content">
-    <span class="close-btn" id="cerrarModal">&times;</span>
-    <p>TODO</p>
-  </div>
-</div>
-
-<!-- jsPDF CDN -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
-<script>
-  const precioInput = document.getElementById('precioVivienda');
-  const precioSlider = document.getElementById('sliderPrecioVivienda');
-  const importeInput = document.getElementById('importeHipoteca');
-  const importeSlider = document.getElementById('importeSliderHipoteca');
-  const plazoInput = document.getElementById('plazo');
-  const plazoSlider = document.getElementById('plazoSlider');
-  const interesInput = document.getElementById('interes');
-  const interesSlider = document.getElementById('sliderInteres');
-  const btnAmortizacion = document.getElementById('btnAmortizacion');
-  const modal = document.getElementById('modalAmortizacion');
-  const cerrarModalBtn = document.getElementById('cerrarModal');
-  const btnDescargarPDF = document.getElementById('btnDescargarPDF');
-
-  // Sincronización inputs y sliders
-  precioInput.addEventListener('input', () => {
-    let val = parseFloat(precioInput.value);
-    if (isNaN(val) || val < 0) val = 0;
-    precioInput.value = val;
-    precioSlider.value = val;
-
-    // Si importe es mayor que precio, ajustamos importe
-    if (parseFloat(importeInput.value) > val) {
-      importeInput.value = val;
-      importeSlider.value = val;
-    }
-
-    actualizarDependencias();
-    actualizarGradiente(precioSlider);
-    actualizarGradiente(importeSlider);
-    calcularResultados();
-  });
-
-  precioSlider.addEventListener('input', () => {
-    const val = parseFloat(precioSlider.value);
-    precioInput.value = val;
-
-    if (parseFloat(importeInput.value) > val) {
-      importeInput.value = val;
-      importeSlider.value = val;
-    }
-
-    actualizarDependencias();
-    actualizarGradiente(precioSlider);
-    actualizarGradiente(importeSlider);
-    calcularResultados();
-  });
-
-  importeInput.addEventListener('input', () => {
-    let val = parseFloat(importeInput.value);
-    const maxPrecio = parseFloat(precioInput.value);
-    if (isNaN(val) || val < 0) val = 0;
-    if (val > maxPrecio) val = maxPrecio;
-    importeInput.value = val;
-    importeSlider.value = val;
-    actualizarGradiente(importeSlider);
-    calcularResultados();
-  });
-
-  importeSlider.addEventListener('input', () => {
-    importeInput.value = importeSlider.value;
-    actualizarGradiente(importeSlider);
-    calcularResultados();
-  });
-
-  plazoInput.addEventListener('input', () => {
-    plazoSlider.value = plazoInput.value;
-    actualizarGradiente(plazoSlider);
-    calcularResultados();
-  });
-
-  plazoSlider.addEventListener('input', () => {
-    plazoInput.value = plazoSlider.value;
-    actualizarGradiente(plazoSlider);
-    calcularResultados();
-  });
-
-  interesInput.addEventListener('input', () => {
-    interesSlider.value = interesInput.value;
-    actualizarGradiente(interesSlider);
-    calcularResultados();
-  });
-
-  interesSlider.addEventListener('input', () => {
-    interesInput.value = interesSlider.value;
-    actualizarGradiente(interesSlider);
-    calcularResultados();
-  });
-
-  document.getElementById('ubicacion').addEventListener('change', calcularResultados);
-  document.getElementById('condicion').addEventListener('change', calcularResultados);
-
-  function actualizarDependencias() {
-    const precio = parseFloat(precioInput.value);
-    const activo = precio > 0;
-
-    importeInput.disabled = !activo;
-    importeSlider.disabled = !activo;
-    plazoInput.disabled = !activo;
-    plazoSlider.disabled = !activo;
-
-    importeInput.max = precio;
-    importeSlider.max = precio;
-
-    if (parseFloat(importeInput.value) > precio) {
-      importeInput.value = precio;
-      importeSlider.value = precio;
-    }
-  }
-
-  function mostrar(valor) {
-    return isNaN(valor) || valor == null ? '' : valor.toFixed(2).replace('.', ',');
-  }
-
-  function actualizarGradiente(element) {
-    const max = parseFloat(element.max);
-    const val = parseFloat(element.value);
-    const porcentaje = (val / max) * 100;
-    element.style.background = `linear-gradient(to right, rgb(28,104,102) 0%, rgb(28,104,102) ${porcentaje}%, #ccc ${porcentaje}%, #ccc 100%)`;
-  }
-
-  function calcularResultados() {
-    const P = parseFloat(importeInput.value);
-    const iAnual = parseFloat(interesInput.value) / 100;
-    const nAnos = parseFloat(plazoInput.value);
-    const nMeses = nAnos * 12;
-
-    if (!P || !iAnual || !nAnos || nAnos === 0) {
-      document.getElementById('cuota').textContent = '';
-      document.getElementById('capitalTotal').textContent = '';
-      document.getElementById('interesesTotales').textContent = '';
-      actualizarCostes(0);
-      return;
-    }
-
-    const iMensual = iAnual / 12;
-    const cuotaMensual = P * iMensual / (1 - Math.pow(1 + iMensual, -nMeses));
-    const capitalTotal = cuotaMensual * nMeses;
-    const interesesTotales = capitalTotal - P;
-
-    document.getElementById('cuota').textContent = mostrar(cuotaMensual);
-    document.getElementById('capitalTotal').textContent = mostrar(capitalTotal);
-    document.getElementById('interesesTotales').textContent = mostrar(interesesTotales);
-
-    actualizarCostes(P);
-  }
-
-  function actualizarCostes(precioVivienda) {
-    // Valores base (puedes ajustar a tu modelo real)
-    const condicion = document.getElementById('condicion').value;
-    const ubicacion = document.getElementById('ubicacion').value;
-
-    // Gastos de la compra (simples reglas ejemplo)
-    const notariaCompra = precioVivienda * 0.0015;
-    const registroCompra = precioVivienda * 0.001;
-    const gestoriaCompra = 300;
-    let impuestosCompra = 0;
-    if (condicion === 'Nueva') impuestosCompra = precioVivienda * 0.04;
-    else impuestosCompra = precioVivienda * 0.07;
-
-    const totalCompra = notariaCompra + registroCompra + gestoriaCompra + impuestosCompra;
-
-    // Gastos de la hipoteca
-    const comisionApertura = precioVivienda * 0.01;
-    const notariaHipoteca = 600;
-    const registroHipoteca = 300;
-    const gestoriaHipoteca = 200;
-    const impuestosHipoteca = precioVivienda * 0.002;
-
-    const totalHipoteca = comisionApertura + notariaHipoteca + registroHipoteca + gestoriaHipoteca + impuestosHipoteca;
-
-    // Tasación
-    const tasacion = 400;
-
-    const totalGastos = totalCompra + totalHipoteca + tasacion;
-
-    document.getElementById('notariaCompra').textContent = mostrar(notariaCompra);
-    document.getElementById('registroCompra').textContent = mostrar(registroCompra);
-    document.getElementById('gestoriaCompra').textContent = mostrar(gestoriaCompra);
-    document.getElementById('impuestosCompra').textContent = mostrar(impuestosCompra);
-    document.getElementById('totalCompra').textContent = mostrar(totalCompra);
-
-    document.getElementById('comisionApertura').textContent = mostrar(comisionApertura);
-    document.getElementById('notariaHipoteca').textContent = mostrar(notariaHipoteca);
-    document.getElementById('registroHipoteca').textContent = mostrar(registroHipoteca);
-    document.getElementById('gestoriaHipoteca').textContent = mostrar(gestoriaHipoteca);
-    document.getElementById('impuestosHipoteca').textContent = mostrar(impuestosHipoteca);
-    document.getElementById('totalHipoteca').textContent = mostrar(totalHipoteca);
-
-    document.getElementById('tasacion').textContent = mostrar(tasacion);
-    document.getElementById('totalGastos').textContent = mostrar(totalGastos);
-  }
-
-  btnAmortizacion.addEventListener('click', () => {
-    modal.style.display = 'flex';
-  });
-
-  cerrarModalBtn.addEventListener('click', () => {
-    modal.style.display = 'none';
-  });
-
-  window.addEventListener('click', (e) => {
-    if (e.target === modal) {
-      modal.style.display = 'none';
-    }
-  });
-
-  btnDescargarPDF.addEventListener('click', () => {
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF();
-
-    const margenIzq = 10;
-    let y = 10;
-
-    doc.setFontSize(18);
-    doc.text("Informe Hipoteca", margenIzq, y);
-    y += 10;
-
-    doc.setFontSize(14);
-    doc.text("Resultados:", margenIzq, y);
-    y += 10;
-
-    const cuota = document.getElementById('cuota').textContent || '-';
-    const capitalTotal = document.getElementById('capitalTotal').textContent || '-';
-    const interesesTotales = document.getElementById('interesesTotales').textContent || '-';
-
-    doc.setFontSize(12);
-    doc.text(`Cuota mensual: ${cuota} €`, margenIzq, y);
-    y += 7;
-    doc.text(`Capital total: ${capitalTotal} €`, margenIzq, y);
-    y += 7;
-    doc.text(`Intereses: ${interesesTotales} €`, margenIzq, y);
-    y += 15;
-
-    doc.setFontSize(14);
-    doc.text("Impuestos y gastos:", margenIzq, y);
-    y += 10;
-
-    const gastos = [
-      {label: "Notaría compra", id: "notariaCompra"},
-      {label: "Registro compra", id: "registroCompra"},
-      {label: "Gestoría compra", id: "gestoriaCompra"},
-      {label: "Impuestos compra", id: "impuestosCompra"},
-      {label: "Total compra", id: "totalCompra"},
-
-      {label: "Comisión apertura hipoteca", id: "comisionApertura"},
-      {label: "Notaría hipoteca", id: "notariaHipoteca"},
-      {label: "Registro hipoteca", id: "registroHipoteca"},
-      {label: "Gestoría hipoteca", id: "gestoriaHipoteca"},
-      {label: "Impuestos hipoteca", id: "impuestosHipoteca"},
-      {label: "Total hipoteca", id: "totalHipoteca"},
-
-      {label: "Tasación", id: "tasacion"},
-      {label: "Gastos totales", id: "totalGastos"},
-    ];
-
-    gastos.forEach(gasto => {
-      const val = document.getElementById(gasto.id).textContent || '-';
-      doc.text(`${gasto.label}: ${val} €`, margenIzq, y);
-      y += 7;
-      // Salto de página si se acerca al final
-      if (y > 280) {
-        doc.addPage();
-        y = 10;
-      }
-    });
-
-    doc.save('informe-hipoteca.pdf');
-  });
-
-  // Inicializar para que los gradientes y controles estén bien sincronizados al cargar
-  actualizarDependencias();
-  actualizarGradiente(precioSlider);
-  actualizarGradiente(importeSlider);
-  actualizarGradiente(plazoSlider);
-  actualizarGradiente(interesSlider);
-  calcularResultados();
-</script>
+    <div class="formulario">
+        <h2>Simulador Hipoteca</h2>
+
+        <label for="precioVivienda">Precio de la vivienda (€):</label>
+        <input type="number" id="precioVivienda" min="0" step="1000" value="0" />
+        <input type="range" id="sliderPrecioVivienda" min="0" max="1000000" step="1000" value="0" />
+
+        <label for="importeHipoteca">Importe de la hipoteca (€):</label>
+        <input type="number" id="importeHipoteca" min="0" step="1000" value="0" disabled />
+        <input type="range" id="importeSliderHipoteca" min="0" max="1000000" step="1000" value="0" disabled />
+
+        <label for="plazo">Plazo (años):</label>
+        <input type="number" id="plazo" min="0" max="50" value="0" disabled />
+        <input type="range" id="plazoSlider" min="0" max="50" step="1" value="0" disabled />
+
+        <label for="interes">Tipo de interés (%):</label>
+        <input type="number" id="interes" min="0" max="10" step="0.1" value="0" />
+        <input type="range" id="sliderInteres" min="0" max="10" step="0.1" value="0" />
+
+        <label for="ubicacion">Ubicación:</label>
+        <select id="ubicacion">
+            <option value="Madrid">Madrid</option>
+            <option value="Barcelona">Barcelona</option>
+            <option value="Valencia">Valencia</option>
+        </select>
+
+        <label for="condicion">Condición:</label>
+        <select id="condicion">
+            <option value="Nueva">Nueva</option>
+            <option value="Segunda mano">Segunda mano</option>
+        </select>
+    </div>
+
+    <div class="resultados">
+        <h3>Resultados</h3>
+        <div class="campo-result">Cuota mensual: <span id="cuota" class="valor"></span></div>
+        <div class="campo-result">Capital total: <span id="capitalTotal" class="valor"></span></div>
+        <div class="campo-result">Intereses: <span id="interesesTotales" class="valor"></span></div>
+        <button id="btnAmortizacion">Ver cuadro de amortización</button>
+
+        <h3>Impuestos y gastos</h3>
+
+        <div class="seccion">
+            <div><strong>Gastos de la compra</strong></div>
+            <div class="subseccion">Notaria: <span id="notariaCompra" class="valor"></span></div>
+            <div class="subseccion">Registro: <span id="registroCompra" class="valor"></span></div>
+            <div class="subseccion">Gestoría: <span id="gestoriaCompra" class="valor"></span></div>
+            <div class="subseccion">Impuestos: <span id="impuestosCompra" class="valor"></span></div>
+            <div class="subseccion"><strong>Total: <span id="totalCompra" class="valor"></span></strong></div>
+        </div>
+
+        <div class="seccion">
+            <div><strong>Gastos de la hipoteca</strong></div>
+            <div class="subseccion">Comisión de apertura: <span id="comisionApertura" class="valor"></span></div>
+            <div class="subseccion">Notaria: <span id="notariaHipoteca" class="valor"></span></div>
+            <div class="subseccion">Registro: <span id="registroHipoteca" class="valor"></span></div>
+            <div class="subseccion">Gestoría: <span id="gestoriaHipoteca" class="valor"></span></div>
+            <div class="subseccion">Impuestos: <span id="impuestosHipoteca" class="valor"></span></div>
+            <div class="subseccion"><strong>Total: <span id="totalHipoteca" class="valor"></span></strong></div>
+        </div>
+
+        <div class="seccion">
+            <div>Gastos de tasación: <span id="tasacion" class="valor"></span></div>
+        </div>
+
+        <div class="seccion">
+            <strong>Gastos totales: <span id="totalGastos" class="valor"></span></strong>
+        </div>
+
+        <button id="btnDescargarPDF">Descargar informe PDF</button>
+    </div>
+
+    <!-- Modal -->
+    <div id="modalAmortizacion">
+        <div class="modal-content">
+            <span class="close-btn" id="cerrarModal">&times;</span>
+            <p>TODO</p>
+        </div>
+    </div>
+
+    <!-- jsPDF CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <script>
+        const precioInput = document.getElementById('precioVivienda');
+        const precioSlider = document.getElementById('sliderPrecioVivienda');
+        const importeInput = document.getElementById('importeHipoteca');
+        const importeSlider = document.getElementById('importeSliderHipoteca');
+        const plazoInput = document.getElementById('plazo');
+        const plazoSlider = document.getElementById('plazoSlider');
+        const interesInput = document.getElementById('interes');
+        const interesSlider = document.getElementById('sliderInteres');
+        const btnAmortizacion = document.getElementById('btnAmortizacion');
+        const modal = document.getElementById('modalAmortizacion');
+        const cerrarModalBtn = document.getElementById('cerrarModal');
+        const btnDescargarPDF = document.getElementById('btnDescargarPDF');
+
+        // Sincronización inputs y sliders
+        precioInput.addEventListener('input', () => {
+            let val = parseFloat(precioInput.value);
+            if (isNaN(val) || val < 0) val = 0;
+            precioInput.value = val;
+            precioSlider.value = val;
+
+            // Si importe es mayor que precio, ajustamos importe
+            if (parseFloat(importeInput.value) > val) {
+                importeInput.value = val;
+                importeSlider.value = val;
+            }
+
+            actualizarDependencias();
+            actualizarGradiente(precioSlider);
+            actualizarGradiente(importeSlider);
+            calcularResultados();
+        });
+
+        precioSlider.addEventListener('input', () => {
+            const val = parseFloat(precioSlider.value);
+            precioInput.value = val;
+
+            if (parseFloat(importeInput.value) > val) {
+                importeInput.value = val;
+                importeSlider.value = val;
+            }
+
+            actualizarDependencias();
+            actualizarGradiente(precioSlider);
+            actualizarGradiente(importeSlider);
+            calcularResultados();
+        });
+
+        importeInput.addEventListener('input', () => {
+            let val = parseFloat(importeInput.value);
+            const maxPrecio = parseFloat(precioInput.value);
+            if (isNaN(val) || val < 0) val = 0;
+            if (val > maxPrecio) val = maxPrecio;
+            importeInput.value = val;
+            importeSlider.value = val;
+            actualizarGradiente(importeSlider);
+            calcularResultados();
+        });
+
+        importeSlider.addEventListener('input', () => {
+            importeInput.value = importeSlider.value;
+            actualizarGradiente(importeSlider);
+            calcularResultados();
+        });
+
+        plazoInput.addEventListener('input', () => {
+            plazoSlider.value = plazoInput.value;
+            actualizarGradiente(plazoSlider);
+            calcularResultados();
+        });
+
+        plazoSlider.addEventListener('input', () => {
+            plazoInput.value = plazoSlider.value;
+            actualizarGradiente(plazoSlider);
+            calcularResultados();
+        });
+
+        interesInput.addEventListener('input', () => {
+            interesSlider.value = interesInput.value;
+            actualizarGradiente(interesSlider);
+            calcularResultados();
+        });
+
+        interesSlider.addEventListener('input', () => {
+            interesInput.value = interesSlider.value;
+            actualizarGradiente(interesSlider);
+            calcularResultados();
+        });
+
+        document.getElementById('ubicacion').addEventListener('change', calcularResultados);
+        document.getElementById('condicion').addEventListener('change', calcularResultados);
+
+        function actualizarDependencias() {
+            const precio = parseFloat(precioInput.value);
+            const activo = precio > 0;
+
+            importeInput.disabled = !activo;
+            importeSlider.disabled = !activo;
+            plazoInput.disabled = !activo;
+            plazoSlider.disabled = !activo;
+
+            importeInput.max = precio;
+            importeSlider.max = precio;
+
+            if (parseFloat(importeInput.value) > precio) {
+                importeInput.value = precio;
+                importeSlider.value = precio;
+            }
+        }
+
+        function mostrar(valor) {
+            return isNaN(valor) || valor == null ? '' : valor.toFixed(2).replace('.', ',');
+        }
+
+        function actualizarGradiente(element) {
+            const max = parseFloat(element.max);
+            const val = parseFloat(element.value);
+            const porcentaje = (val / max) * 100;
+            element.style.background = `linear-gradient(to right, rgb(28,104,102) 0%, rgb(28,104,102) ${porcentaje}%, #ccc ${porcentaje}%, #ccc 100%)`;
+        }
+
+        function calcularResultados() {
+            const P = parseFloat(importeInput.value);
+            const iAnual = parseFloat(interesInput.value) / 100;
+            const nAnos = parseFloat(plazoInput.value);
+            const nMeses = nAnos * 12;
+
+            if (!P || !iAnual || !nAnos || nAnos === 0) {
+                document.getElementById('cuota').textContent = '';
+                document.getElementById('capitalTotal').textContent = '';
+                document.getElementById('interesesTotales').textContent = '';
+                actualizarCostes(0);
+                return;
+            }
+
+            const iMensual = iAnual / 12;
+            const cuotaMensual = P * iMensual / (1 - Math.pow(1 + iMensual, -nMeses));
+            const capitalTotal = cuotaMensual * nMeses;
+            const interesesTotales = capitalTotal - P;
+
+            document.getElementById('cuota').textContent = mostrar(cuotaMensual);
+            document.getElementById('capitalTotal').textContent = mostrar(capitalTotal);
+            document.getElementById('interesesTotales').textContent = mostrar(interesesTotales);
+
+            actualizarCostes(P);
+        }
+
+        function actualizarCostes(precioVivienda) {
+            // Valores base (puedes ajustar a tu modelo real)
+            const condicion = document.getElementById('condicion').value;
+            const ubicacion = document.getElementById('ubicacion').value;
+
+            // Gastos de la compra (simples reglas ejemplo)
+            const notariaCompra = precioVivienda * 0.0015;
+            const registroCompra = precioVivienda * 0.001;
+            const gestoriaCompra = 300;
+            let impuestosCompra = 0;
+            if (condicion === 'Nueva') impuestosCompra = precioVivienda * 0.04;
+            else impuestosCompra = precioVivienda * 0.07;
+
+            const totalCompra = notariaCompra + registroCompra + gestoriaCompra + impuestosCompra;
+
+            // Gastos de la hipoteca
+            const comisionApertura = precioVivienda * 0.01;
+            const notariaHipoteca = 600;
+            const registroHipoteca = 300;
+            const gestoriaHipoteca = 200;
+            const impuestosHipoteca = precioVivienda * 0.002;
+
+            const totalHipoteca = comisionApertura + notariaHipoteca + registroHipoteca + gestoriaHipoteca + impuestosHipoteca;
+
+            // Tasación
+            const tasacion = 400;
+
+            const totalGastos = totalCompra + totalHipoteca + tasacion;
+
+            document.getElementById('notariaCompra').textContent = mostrar(notariaCompra);
+            document.getElementById('registroCompra').textContent = mostrar(registroCompra);
+            document.getElementById('gestoriaCompra').textContent = mostrar(gestoriaCompra);
+            document.getElementById('impuestosCompra').textContent = mostrar(impuestosCompra);
+            document.getElementById('totalCompra').textContent = mostrar(totalCompra);
+
+            document.getElementById('comisionApertura').textContent = mostrar(comisionApertura);
+            document.getElementById('notariaHipoteca').textContent = mostrar(notariaHipoteca);
+            document.getElementById('registroHipoteca').textContent = mostrar(registroHipoteca);
+            document.getElementById('gestoriaHipoteca').textContent = mostrar(gestoriaHipoteca);
+            document.getElementById('impuestosHipoteca').textContent = mostrar(impuestosHipoteca);
+            document.getElementById('totalHipoteca').textContent = mostrar(totalHipoteca);
+
+            document.getElementById('tasacion').textContent = mostrar(tasacion);
+            document.getElementById('totalGastos').textContent = mostrar(totalGastos);
+        }
+
+        btnAmortizacion.addEventListener('click', () => {
+            modal.style.display = 'flex';
+        });
+
+        cerrarModalBtn.addEventListener('click', () => {
+            modal.style.display = 'none';
+        });
+
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        btnDescargarPDF.addEventListener('click', () => {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+
+            const margenIzq = 10;
+            let y = 10;
+
+            doc.setFontSize(18);
+            doc.text("Informe Hipoteca", margenIzq, y);
+            y += 10;
+
+            doc.setFontSize(14);
+            doc.text("Resultados:", margenIzq, y);
+            y += 10;
+
+            const cuota = document.getElementById('cuota').textContent || '-';
+            const capitalTotal = document.getElementById('capitalTotal').textContent || '-';
+            const interesesTotales = document.getElementById('interesesTotales').textContent || '-';
+
+            doc.setFontSize(12);
+            doc.text(`Cuota mensual: ${cuota} €`, margenIzq, y);
+            y += 7;
+            doc.text(`Capital total: ${capitalTotal} €`, margenIzq, y);
+            y += 7;
+            doc.text(`Intereses: ${interesesTotales} €`, margenIzq, y);
+            y += 15;
+
+            doc.setFontSize(14);
+            doc.text("Impuestos y gastos:", margenIzq, y);
+            y += 10;
+
+            const gastos = [
+                { label: "Notaría compra", id: "notariaCompra" },
+                { label: "Registro compra", id: "registroCompra" },
+                { label: "Gestoría compra", id: "gestoriaCompra" },
+                { label: "Impuestos compra", id: "impuestosCompra" },
+                { label: "Total compra", id: "totalCompra" },
+
+                { label: "Comisión apertura hipoteca", id: "comisionApertura" },
+                { label: "Notaría hipoteca", id: "notariaHipoteca" },
+                { label: "Registro hipoteca", id: "registroHipoteca" },
+                { label: "Gestoría hipoteca", id: "gestoriaHipoteca" },
+                { label: "Impuestos hipoteca", id: "impuestosHipoteca" },
+                { label: "Total hipoteca", id: "totalHipoteca" },
+
+                { label: "Tasación", id: "tasacion" },
+                { label: "Gastos totales", id: "totalGastos" },
+            ];
+
+            gastos.forEach(gasto => {
+                const val = document.getElementById(gasto.id).textContent || '-';
+                doc.text(`${gasto.label}: ${val} €`, margenIzq, y);
+                y += 7;
+                // Salto de página si se acerca al final
+                if (y > 280) {
+                    doc.addPage();
+                    y = 10;
+                }
+            });
+
+            doc.save('informe-hipoteca.pdf');
+        });
+
+        // Inicializar para que los gradientes y controles estén bien sincronizados al cargar
+        actualizarDependencias();
+        actualizarGradiente(precioSlider);
+        actualizarGradiente(importeSlider);
+        actualizarGradiente(plazoSlider);
+        actualizarGradiente(interesSlider);
+        calcularResultados();
+    </script>
 
 </body>
+
 </html>
